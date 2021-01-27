@@ -11,32 +11,12 @@
         $email  = $_POST['email'];
         $pass   = $_POST['password'];
 
-        $namafoto= $_FILES['foto']['name'];
-        $lokfoto = $_FILES['foto']['tmp_name'];
+       
 
-
-        if (empty($foto)) 
-        {
+      
             $link = "nama_user = '$nama', alamat = '$alamat', 
                  no_hp='$nohp', email='$email', password='$pass'";
-        }
-        else
-        {
-            $nmaFoto = uploadFoto($namafoto, $lokfoto);
-
-            //$tujuan  = "./foto/$foto";
-
-            //move_uploaded_file($lokfoto, $tujuan);
-
-            $target = "./foto/$foto";
-
-            unlink($target);
-
-            
-            //move_uploaded_file($lokfoto, '../foto/'.$foto);
-            $link = "nama_user = '$nama', alamat = '$alamat', 
-                 no_hp='$nohp', email='$email', password='$pass', foto='$nmaFoto'";
-        }
+       
 
         $tabel= "user";
         
@@ -47,12 +27,24 @@
         if ($cek==1) 
         {
             //echo "$lokfoto kkk";
-            pindahHalaman("akun&mode=data");
+            echo
+            "
+                <script>
+                    alert('Data sudah diubah');
+                </script>
+            ";
+            pindahHalaman("akun-profile");
         } 
         else 
         {
-            pesanALert("Tidak bisa diubah");
-            pindahHalaman("akun&mode=data");
+            //pesanALert("Tidak bisa diubah");
+            echo
+            "
+                <script>
+                    alert('Data tidak bisa diubah');
+                </script>
+            ";
+            pindahHalaman("akun-profile");
         }
         
     }
@@ -155,10 +147,32 @@
         $omset  = $_POST['omset'];
         $jumkar  = $_POST['jumkar'];
         $deskripsi = $_POST['deskripsi'];
+        $provinsi = $_POST['provinsi'];
+        $alamat = $_POST['alamat'];
+        $email = $_POST['email'];
+        $telp = $_POST['notelp'];
+        $industri = $_POST['industri'];
+
+
+        $namafoto= $_FILES['foto']['name'];
+        $lokfoto = $_FILES['foto']['tmp_name'];
+
+        if (!empty($namafoto)) 
+        {
+            $newe = uploadBisnis("$userId", $lokfoto);
 
         
 
-        $isi  = "NULL,'$nama', '$tahun', '$bidang', '$ig', '$fb', '$web', '$omset', '$jumkar', '$deskripsi', '$userId'";
+            $isi  = "NULL,'$nama', '$tahun', '$bidang', '$ig', '$fb', '$web', '$omset', '$jumkar', '$deskripsi', '$userId', '$provinsi', '$alamat', '$email', '$telp', '$newe', '$industri'";
+        } 
+        else 
+        {
+            $isi  = "NULL,'$nama', '$tahun', '$bidang', '$ig', '$fb', '$web', '$omset', '$jumkar', '$deskripsi', '$userId', '$provinsi', '$alamat', '$email', '$telp', 'Kosong', '$industri'";
+        }
+        
+
+
+        
 
         $perintah = $crud->tambahData("user_preneur", $isi);
         $eksekusi = $crud->cekQuery($perintah);
@@ -190,7 +204,7 @@
             "
                 <script>
                     alert('Gagal');
-                    window.location='?hal=akun-membership';
+                    window.location='?hal=akun-profile';
                 </script>
             ";
         }
@@ -217,11 +231,18 @@
         $alamat    = $_POST['alamat'];
         $email    = $_POST['email'];
         $notelp    = $_POST['notelp'];
+        $industri = $_POST['industri'];
 
-        
+        $namafoto= $_FILES['foto']['name'];
+        $lokfoto = $_FILES['foto']['tmp_name'];
         
 
-        $isi  = "
+       
+
+        if (!empty($namafoto)) 
+        {
+            $newe = uploadBisnis($userId, $lokfoto);
+            $isi  = "
         
             `nama_bisnis`='$nama',
             `tahun_dirikan`='$tahun',
@@ -231,9 +252,41 @@
             `website_bisnis`='$web',
             `omset_bulanan`='$omset',
             `jumlah_karyawan`='$jumkar',
-            `deskripsi_usaha`='$deskripsi'
+            `deskripsi_usaha`='$deskripsi',
+            `id_provinsi`='$provinsi',
+            `alamat_bisnis`='$alamat',
+            `email_bisnis`='$email',
+            `telp_bisnis`='$notelp',
+            `foto_usaha`='$newe',
+            `industri`='$industri'
+
+            
         
         ";
+        } 
+        else 
+        {
+            $isi  = "
+        
+            `nama_bisnis`='$nama',
+            `tahun_dirikan`='$tahun',
+            `bidang_usaha`='$bidang',
+            `akun_instagram`='$ig',
+            `page_facebook`='$fb',
+            `website_bisnis`='$web',
+            `omset_bulanan`='$omset',
+            `jumlah_karyawan`='$jumkar',
+            `deskripsi_usaha`='$deskripsi',
+            `id_provinsi`='$provinsi',
+            `alamat_bisnis`='$alamat',
+            `email_bisnis`='$email',
+            `telp_bisnis`='$notelp',
+            `industri`='$industri'
+            
+        
+        ";
+        }
+        
 
         $perintah = $crud->ubahData("user_preneur", $isi, "id_userpreneur", $idpe);
         $eksekusi = $crud->cekQuery($perintah);
@@ -273,11 +326,23 @@
     }
     elseif ($mau=='udahbaca') 
     {
-        $ubahan = "baca_member='Sudah dibaca'";
+        $ubahan = "baca_member='Sudah dibaca', id_user='$userId'";
 
         $idt = @$_GET['idT'];
 
-        $ubahNotif = $crud->ubahData("transaksi", $ubahan, "id_transaksi", $idt);
+
+        if (!empty($idt)) 
+        {
+            $ubahNotif = $crud->eksekusiSQL("UPDATE transaksi SET $ubahan WHERE id_transaksi='$idt'");
+        }
+        else
+        {
+            $ubahNotif = $crud->eksekusiSQL("UPDATE transaksi SET $ubahan WHERE id_user='$userId'");
+        }
+
+       
+
+        
 
         $cek = $crud->cekQuery($ubahNotif);
 
@@ -288,10 +353,10 @@
                
                 <script>
                 //var lokasi = window.location='index.php';
-                swal('Sudah diubah!', 'Ditandai sebagai sudah dibaca...!', 'success')
-                    .then((value)=> {
+              //  swal('Sudah diubah!', 'Ditandai sebagai sudah dibaca...!', 'success')
+                //    .then((value)=> {
                         window.location='?hal=akun-transaksi'
-                    })
+                  //  })
                 </script>
                     
                
@@ -312,9 +377,9 @@
     elseif ($mau=='dibaca') 
     {
        
-
+        $t   = @$_GET['t'];
         $ubahNotif = $crud->eksekusiSQL("UPDATE transaksi SET baca_member='Sudah dibaca'
-                    WHERE id_user='$userId'");
+                    WHERE id_transaksi='$t'");
 
         $cek = $crud->cekQuery($ubahNotif);
 

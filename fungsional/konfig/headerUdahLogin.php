@@ -31,12 +31,219 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         
                         <i class="fa fa-bell" aria-hidden="true"></i>
-                        <sup class="badge badge-danger"><?php echo $angkaTransaksi; ?></sup>
+                        <?php
+                            $notifTransaksi = $crud->eksekusiSQL("SELECT *FROM transaksi WHERE 
+                            id_user='$userId' AND baca_member='Belum dibaca' AND keterangan='Sedang diproses' ORDER BY id_transaksi DESC");
+
+                           
+                            
+                            $transUdah = $crud->eksekusiSQL("SELECT *FROM transaksi WHERE 
+                            id_user='$userId' AND baca_member='Belum dibaca' AND keterangan='Ok' ORDER BY id_transaksi DESC");
+
+                            $transAbis = $crud->eksekusiSQL("SELECT *FROM transaksi WHERE 
+                            id_user='$userId' AND baca_member='Belum dibaca' AND keterangan='Expired' ORDER BY id_transaksi DESC");
+
+                            $hitungTransaksi = $crud->hitungData($notifTransaksi);
+                            $hitungUdah = $crud->hitungData($transUdah);
+                            $hitungAbis = $crud->hitungData($transAbis);
+
+
+                            $TotalTrans = $hitungTransaksi + $hitungUdah + $hitungAbis;
+                            $angkaNotif = notifikasi($TotalTrans);
+                        ?>
+                       <?php echo $angkaNotif; ?>
 
                     </a>
                     <div style="background-color: black;" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <font color="white">
-                        <a class="dropdown-item text-light" href="<?php echo $linkTrans; ?>"><?php echo $pesanTransaksi;  ?></a>
+                        <?php
+
+                            
+                                
+
+
+
+                                if ($hitungTransaksi>0) 
+                                {
+                                    foreach($notifTransaksi as $k)
+                                    {
+                                        $keter = $k['keterangan'];
+                                        $idev  = $k['id_event'];
+                                        $ipak  = $k['id_paket'];
+                                        $idt   = $k['id_transaksi'];
+
+                                        if ($keter='Sedang diproses') 
+                                        {
+                                            if ($idev==NULL) 
+                                            {
+                                                $p = "Transaksi Paket";
+                                            } 
+                                            else 
+                                            {
+                                                $p = "Transaksi Event";
+                                            }
+                                            
+                                            $katanya = "$p Sedang diproses";
+                                            
+                                        } 
+                                        else 
+                                        {
+                                            if ($idev==NULL) 
+                                            {
+                                                $p = "Transaksi Paket";
+                                            } 
+                                            else 
+                                            {
+                                                $p = "Transaksi Event";
+                                            }
+                                            
+                                            $katanya = "$p Sudah diproses";
+                                        }
+
+                                        $pesanTransaksi = $katanya;
+                                        $angkaTransaksi = $hitungTransaksi;
+                                        $linkTrans = "?hal=akun-respon&mode=dibaca&t=$idt";
+                                        echo
+                                        "
+                                        <a class='dropdown-item text-light' href='$linkTrans'>$pesanTransaksi</a>
+                                        ";
+                                        
+                                    }
+
+                                    
+                                }
+                                else
+                                {
+                                    $pesanTransaksi = "Belum ada Transaksi";
+                                    $angkaTransaksi ="";
+                                    $linkTrans = "#";
+
+
+                                }
+
+
+                               
+
+
+                                if ($hitungUdah>0) 
+                                {
+                                    foreach($transUdah as $z)
+                                    {
+                                        $keter = $z['keterangan'];
+                                        $idev  = $z['id_event'];
+                                        $ipak  = $z['id_paket'];
+                                        $idt   = $z['id_transaksi'];
+
+                                        if ($keter='Sedang diproses') 
+                                        {
+                                            if ($idev==NULL) 
+                                            {
+                                                $p = "Transaksi Paket";
+                                            } 
+                                            else 
+                                            {
+                                                $p = "Transaksi Event";
+                                            }
+                                            
+                                            $katanya = "$p Sedang diproses";
+                                            
+                                        } 
+                                        else 
+                                        {
+                                            if ($idev==NULL) 
+                                            {
+                                                $p = "Transaksi Paket";
+                                            } 
+                                            else 
+                                            {
+                                                $p = "Transaksi Event";
+                                            }
+                                            
+                                            $katanya = "$p Sudah diproses";
+                                        }
+
+                                        $pesanUdah = $katanya;
+                                        $angkaUdah = $hitungUdah;
+                                        $linkUdah = "?hal=akun-respon&mode=dibaca&t=$idt";
+                                        echo
+                                        "
+                                        <a class='dropdown-item text-light' href='$linkUdah'>$pesanUdah</a>
+                                        ";
+                                        
+                                    }
+
+                                    
+                                }
+                                else
+                                {
+                                    $pesanTransaksi = "Belum ada Transaksi";
+                                    $angkaTransaksi ="";
+                                    $linkTrans = "#";
+
+                                    
+                                }
+
+                                if ($hitungAbis>0) 
+                                {
+                                    foreach($transAbis as $z)
+                                    {
+                                        $keter = $z['keterangan'];
+                                        $idev  = $z['id_event'];
+                                        $ipak  = $z['id_paket'];
+                                        $idt   = $z['id_transaksi'];
+
+                                       
+                                            if ($idev==NULL) 
+                                            {
+                                                $pak = $crud->eksekusiSQL("SELECT *FROM paket_member WHERE id_paket ='$ipak'");
+                                                foreach ($pak as $ket) 
+                                                {
+                                                    $namaPak = $ket['nama_paket'];
+                                                }
+
+                                                $p = "$namaPak sudah habis";
+                                            } 
+                                           
+                                          //  $katanya = "$p Sedang diproses";
+                                            
+                                        
+                                       
+
+                                        $pesanAbis = $p;
+                                        $angkaUdah = $hitungUdah;
+                                        $linkUdah = "?hal=akun-respon&mode=dibaca&t=$idt";
+                                        echo
+                                        "
+                                        <a class='dropdown-item text-light' href='$linkUdah'>$pesanAbis</a>
+                                        ";
+                                        
+                                    }
+
+                                    
+                                }
+                                else
+                                {
+                                    $pesanTransaksi = "Belum ada Transaksi";
+                                    $angkaTransaksi ="";
+                                    $linkTrans = "#";
+
+                                    
+                                }
+
+
+                                if ($TotalTrans==0) 
+                                {
+                                    echo
+                                    "
+                                        <a class='dropdown-item text-light' href='#'>Belum ada Transaksi</a>
+                                    ";
+                                } 
+                               
+                            
+                            
+
+                        ?>
+                       
                         </font>
                     </div>
                 </li>

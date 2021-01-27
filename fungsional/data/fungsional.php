@@ -77,6 +77,21 @@
 
     }
 
+    function uploadBisnis($nama, $lokasi)
+    {
+        $nm = "Bisnis_$nama";
+        $ac = date("Ymdhis");
+
+        $nmBaru = $nm."-".$ac.".jpg";
+
+        $tujuan = './foto/bisnismember/'.$nmBaru;
+        move_uploaded_file($lokasi, $tujuan);
+
+
+        return $nmBaru;
+
+    }
+
     function youtubeGambar($link)
     {
         if(!filter_var($link, FILTER_VALIDATE_URL)){
@@ -110,14 +125,17 @@
     {
         if ($hitung==0) 
         {
-            echo "";
+            echo
+            "
+           
+            ";
         } 
         else 
         {
             echo
             "
             <span class='badge badge-danger'>
-                <i class='fas fa-bell '></i> $hitung
+                $hitung
             </span>   
             ";
         }
@@ -130,3 +148,5 @@
     }
 
 ?>
+
+

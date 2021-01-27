@@ -1,4 +1,4 @@
-<a data-fancybox="gallery" href="<?php echo $gambar; ?>" data-caption="<?php echo "$namauser"; ?>">
+<a data-fancybox href="<?php echo $gambar; ?>" data-caption="<?php echo "$namauser"; ?>">
   <img src="<?php echo $gambar; ?>" width="100%" height="135" class="rounded-circle" alt="<?php echo "$namauser"; ?>">
   <center>
     <a data-fancybox data-src="#fotoan" href="javascript:;" style="padding: 2px; margin-top:8px" class="btn btn-danger btn-sm" ><?php echo $kataTombolFoto; ?></a>
@@ -16,9 +16,8 @@
       <a class="nav-link active" href="?hal=akun-membership">Membership</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" href="?hal=akun-transaksi">
-        <i class="fa fa-money" aria-hidden="true"></i> Transaksi
-        <sup><?php notifikasi($hitungTransaksi) ?></sup>
+      <a class="nav-link active" href="?hal=akun-respon&mode=udahbaca">
+        Transaksi
       </a>
     </li>
 

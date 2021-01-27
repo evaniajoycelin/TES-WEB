@@ -49,6 +49,7 @@ include './fungsional/konfig/headerUdahLogin.php';
                             <th>No. Rekening</th>
                             <th>Pemilik Rekening</th>-->
                                 <th>Tanggal Transaksi</th>
+                                <th>Tanggal Berakhir</th>
                                 <th>Keterangan</th>
                                 <th>Baca</th>
                                 <th>Opsi</th>
@@ -87,6 +88,7 @@ include './fungsional/konfig/headerUdahLogin.php';
                                     $norek     = $key['no_rek'];
                                     $narek     = $key['nama_rekening'];
                                     $tgl       = $key['tgl_transaksi'];
+                                    $akhir     = $key['tgl_berakhir'];
 
                                     $baca      = $key['baca_member'];
 
@@ -122,7 +124,8 @@ include './fungsional/konfig/headerUdahLogin.php';
                                     
 
 
-                                    $tanggal   = date("d F Y, h:i", strtotime($tgl));
+                                    $tanggal   = date("d F Y", strtotime($tgl));
+                                    $berakhir  = date("d F Y", strtotime($akhir));
 
                                     $biaya = "Rp " . formatRupiah($harga) . ",-";
 
@@ -142,6 +145,7 @@ include './fungsional/konfig/headerUdahLogin.php';
                                             </td>
                                             <td>$narek</td>-->
                                             <td>$tanggal</td>
+                                            <td>$berakhir</td>
                                             <td>
                                                 <center>
                                                     $isiKet
@@ -163,6 +167,43 @@ include './fungsional/konfig/headerUdahLogin.php';
                                                 </center>
                                             </td>
                                         </tr>
+                                    ";
+
+                                    echo
+                                    "
+                                    <!-- Modal InfoTrab -->
+
+                                    <div id='transaksi$idTran' style='font-size: 16px; width:1000px; display:none;'>
+                                    
+                                        <div class='row'>
+                                            <div class='col-md'>
+                                                <center>
+                                                    <img src='$gambarS' width='100%' height='500' alt='$namatrans'>
+                                                </center>
+                                            </div>
+                                    
+                                            <div class='col-md'>
+                                                <h3>$namatrans</h3>
+                                                <h4>Rincian:</h4>
+                                    
+                                                <p>Biaya <span class='text-primary'><b>$biaya</b></span></p>
+                                                <p>
+                                                    No. Rekening yang digunakan <span class='text-primary'>$norek</span>
+                                                </p>
+                                                <p>
+                                                    Atas nama <span class='text-primary'>$narek</span>
+                                                </p>
+                                                <p>
+                                                    Dibayar pada <span class='text-primary'>$tanggal</span>
+                                                </p>
+                                    
+                                                <hr>
+                                    
+                                                <h4>Keterangan</h4>
+                                                <h5><span class='text-primary'>$isiKet</span></h5>
+                                            </div>
+                                        </div>
+                                    </div>
                                     ";
                                     $no++;
                                 }
@@ -248,39 +289,7 @@ include './fungsional/konfig/headerUdahLogin.php';
 </div>
 
 
-<!-- Modal InfoTrab -->
 
-<div id="transaksi<?php echo $idTran; ?>" style="font-size: 16px; width:1000px; display:none;">
-
-    <div class="row">
-        <div class="col-md">
-            <center>
-                <img src="<?php echo $gambarS; ?>" width="100%" height="500" alt="<?php echo $namatrans; ?>">
-            </center>
-        </div>
-
-        <div class="col-md">
-            <h3><?php echo $namatrans; ?></h3>
-            <h4>Rincian:</h4>
-
-            <p>Biaya <span class="text-primary"><b><?php echo $biaya; ?></b></span></p>
-            <p>
-                No. Rekening yang digunakan <span class="text-primary"><?php echo $norek; ?></span>
-            </p>
-            <p>
-                Atas nama <span class="text-primary"><?php echo $narek; ?></span>
-            </p>
-            <p>
-                Dibayar pada <span class="text-primary"><?php echo $tanggal; ?></span>
-            </p>
-
-            <hr>
-
-            <h4>Keterangan</h4>
-            <h5><span class="text-primary"><?php echo $isiKet; ?></span></h5>
-        </div>
-    </div>
-</div>
 
 </div>
 </div>

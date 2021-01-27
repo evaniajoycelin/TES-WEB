@@ -65,12 +65,14 @@
           {
             $jumlahKelas = $e['jumlah_kelas'];
             $namaPaket   = $e['nama_paket'];
+            //$carPak = $crud->eksekusiSQL("SELECT *FROM paket_membership WHERE nama_paket='$namaPaket'");
           }
 
           echo
           "
             <h1>$namaPaket</h1>
-            <h3>Jumlah Kelas : $jumlahKelas Kelas</h3>
+            <h4>Jumlah Kelas : $jumlahKelas Kelas</h4>
+            
           ";
          
                 
@@ -95,8 +97,19 @@
                 $foto  = $a['foto_kelas'];
 
                 $desk  = $a['deskripsi'];
+                $pesan = $a['pesan'];
 
                 $kondisi = $a['kondisi'];
+
+                if ($pesan==NULL) 
+                {
+                  $pesanF = $desk;
+                } 
+                else 
+                {
+                  $pesanF = $pesan;
+                }
+                
                 
                 
                 $pel = $crud->eksekusiSQl("SELECT *FROM kursus WHERE id_kelas='$idkel'");
@@ -149,7 +162,7 @@
 
                 echo
                 "
-                  <section style='margin-top:90px;'>
+                  <section style='margin-top:35px;'>
                     <div class='container'>
                         <div class='row align-items-center'>
                           <div class='col-md $floating2'>
@@ -157,7 +170,7 @@
                           </div>
                           <div class='col-md $floating1'>
                             <h1 class='display-4'>$nama</h1>
-                            <p>$desk</p>
+                            <p>$pesanF</p>
                             <a href='?hal=course-info&k=$idkel' class='btn btn-primary'>
                               Pelajari
                             </a>

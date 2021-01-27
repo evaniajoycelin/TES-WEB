@@ -113,6 +113,8 @@
 
         $hitung   = $crud->hitungData($perintah);
 
+       
+
         if ($hitung==0) 
         {
             pesanKosong();
@@ -122,28 +124,20 @@
             foreach($perintah as $a)
             {
                 $nama = $a['nama_kursus'];
-                $link = $a['link_video'];
+               // $link = $a['link_video'];
                 
                 $idk  = $a['id_kursus'];
                 $namak= $a['nama_kelas'];
 
-
-                $tamnel = youtubeGambar($link);
-
-
                 $foto = $a['foto_kursus'];
 
 
-                if ($link=='Kosong') 
-                {
+               // $tamnel = youtubeGambar($link);
+
+
+               
                     $tamnel ="./foto/kursus/$foto";
-                    $lokfile= $tamnel;
-                }
-                else
-                {
-                    $tamnel = youtubeGambar($link);
-                    $lokfile = $link;
-                }
+                    
                 
                 
 //$pel = $isi->eksekusiSQl("SELECT *FROM kursus WHERE id_kelas='$idkel'");
@@ -152,7 +146,7 @@
                 
                     $gambar = 
                     "  
-                            <img class='card-img-top' src='$tamnel' width='100' height='120'>
+                            <img class='card-img-top' src='$tamnel' width='100' height='165'>
                        
                     ";
                 
@@ -176,8 +170,22 @@
                   ";
                 //$no++;
             }
-        }
 
+            $nextKelas = $crud->eksekusiSQL("SELECT *FROM kelas WHERE id_kelas NOT IN ($kelas) ORDER BY nama_kelas ASC LIMIT 1");
+            foreach ($nextKelas as $go) 
+            {
+              $idkelas = $go['id_kelas'];
+              $nmkelas = $go['nama_kelas'];
+            }
+
+            echo
+            "
+              <p>
+                <a class='btn btn-primary btn-lg' href='?hal=course-info&k=$idkelas'>Kelas Selanjutnya $nmkelas</a>
+              </p>
+            ";
+        }
+      
       ?>
     </div> 
 

@@ -28,6 +28,7 @@
   <link href="ev-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="css/danny-design.css">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
 
 </head>
 
@@ -45,7 +46,7 @@
     include './fungsional/data/data-user.php';
     include './fungsional/data/notifikasi.php';
     include './fungsional/konfig/pindahHal.php'; 
-    //include './fungsional/data/modal.php';
+    include './fungsional/data/modal.php';
 
   ?>
 
@@ -62,7 +63,10 @@
   <script type="text/javascript" src="./vendor/oploo/jquery.uploadPreview.min.js"></script>
 
   <script src="./vendor/tambahan/tools.js"></script>
- 
+  <script src="https://cdn.plyr.io/3.6.2/plyr.polyfilled.js"></script>
+  <script>
+    const player = new Plyr('#player')
+  </script>
 
 </body>
 

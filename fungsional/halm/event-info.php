@@ -59,7 +59,7 @@
             <img class="img-fluid" src="<?php echo $tujuan; ?>" alt="">
           </div>
         </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6" style='padding:50px;'>
         
             <!--<h4 class="display-4">Nama Event</h4>-->
 
@@ -107,17 +107,37 @@
           $isiTrans = $crud->eksekusiSQL("SELECT *FROM transaksi WHERE id_event='$id' AND keterangan='Ok'");
           $cekHitung= $crud->hitungData($isiTrans);
 
+          $now = date('Y-m-d');
+         
+          
+          
+   
+            
+            
+            
+          
+
           if ($cekHitung==$kuota) 
           {
             $arahin=
             "
               <h2>Maaf, Kuota sudah Penuh</h2>
             ";
+
+            $cekTransa = $crud->eksekusiSQL("SELECT *FROM transaksi WHERE id_event='$id' AND id_user='$iduser' AND keterangan='Ok'");
+            $cariTra   = $crud->hitungData($cekTransa);
+
+              if ($cariTra>0) 
+              {
+                $arahin=
+                "
+                  <h2>Anda sudah terdaftar di Event ini</h2>
+                ";
+              } 
           } 
+         
           else 
           {
-            
-
             if (empty($iduser)) 
             {
               
@@ -152,9 +172,19 @@
                 </a>
                 ";
               }
-              
-              
             }
+            
+              
+            
+          }
+
+          //$ko = 
+          if ($now>$waktu) 
+          {
+              $arahin=
+              "
+                <h2>Event ini sudah lewat</h2>
+              ";
           }
           
 

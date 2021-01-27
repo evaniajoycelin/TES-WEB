@@ -1,9 +1,9 @@
-<form action="?hal=akun-respon&mode=preneur" method="post">
+<form action="?hal=akun-respon&mode=preneur" method="post" enctype="multipart/form-data">
     <!--<input type="hidden" name="k" value="<?php echo $i; ?>">-->
 
     <h2>Akun Bisnis Anda</h2>
 
-    <table width="100%">
+    <table width="100%" class="tabelForm">
         <tr>
             <td width="35%">Nama Bisnis Anda <sup class="text-danger">
                     <font size='3'>*</font>
@@ -35,6 +35,48 @@
                     <option value="Produk">Produk</option>
                     <option value="Jasa">Jasa</option>
                     <option value="Produk & Jasa">Produk & Jasa</option>
+                </select>
+                
+            </td>
+        </tr>
+        <tr>
+            <td width="35%">Industri <sup class="text-danger">
+                    <font size='3'>*</font>
+                </sup></td>
+            <td>:</td>
+            <td>
+
+
+                <select class="form-control" name="industri" required>
+                    <option value="">PILIH INDUSTRI</option>
+                    <option value="Makanan dan minuman">Makanan dan minuman</option>
+                    <option value="Tembakau">Tembakau</option>
+                    <option value="Tekstil">Tekstil</option>
+                    <option value="Pakaian Jadi">Pakaian Jadi</option>
+                    <option value="Kulit dan barang dari kulit">Kulit dan barang dari kulit</option>
+                    <option value="Kertas dan barang dari kertas">Kertas dan barang dari kertas</option>
+                    <option value="Penerbitan, percetakan, dan reproduksi">Penerbitan, percetakan, dan reproduksi</option>
+                    <option value="Batu bara, minyak, dan gas bumi, dan bahan bakar dari nuklir">Batu bara, minyak, dan gas bumi, dan bahan bakar dari nuklir</option>
+                    <option value="Kimia dan barang-barang dari bahan kimia">Kimia dan barang-barang dari bahan kimia</option>
+                    <option value="Karet, dan barang-barang dari plastik">Karet, dan barang-barang dari plastik</option>
+                    <option value="Barang galian dari logam">Barang galian dari logam</option>
+                    <option value="Logam dasar">Logam dasar</option>
+                    <option value="Barang-barang dari logam, dan peralatannya">Barang-barang dari logam, dan peralatannya</option>
+                    <option value="Mesin dan perlengkapannya">Mesin dan perlengkapannya</option>
+                    <option value="Peralatan kantor, akutansi, dan pengolahan data">Peralatan kantor, akutansi, dan pengolahan data</option>
+                    <option value="Mesin listrik lainnya dan perlengkapannya">Mesin listrik lainnya dan perlengkapannya</option>
+                    <option value="Radio, televisi, dan peralatan komunikasi">Radio, televisi, dan peralatan komunikasi</option>
+                    <option value="Peralatan kedokteran, alat ukur, navigasi, optik, dan jam">Peralatan kedokteran, alat ukur, navigasi, optik, dan jam</option>
+                    <option value="Kendaraan bermotor">Kendaraan bermotor</option>
+                    <option value="Alat angkutan lainnya">Alat angkutan lainnya</option>
+                    <option value="Furniture, peralatan rumah tangga dan industri pengolahan lainnya ">Furniture, peralatan rumah tangga dan industri pengolahan lainnya </option>
+                    <option value="Souvenir">Souvenir</option>
+                    <option value="Event, dan wedding organiser">Event, dan wedding organiser</option>
+                    <option value="Service peralatan elektronik ">Service peralatan elektronik </option>
+                    <option value="Jasa konsultasi">Jasa konsultasi</option>
+                    <option value="Pendidikan">Pendidikan</option>
+                    <option value="Startup">Startup</option>
+                    <option value="Lainnya">Lainnya</option>
                 </select>
                 </div>
             </td>
@@ -68,9 +110,23 @@
             <td>
                 <div class="form-group">
 
-                    <select id="selectProvinsi" class="form-control" name="provinsi" required>
+                    <select class="form-control" name="provinsi" required>
                         <option value="">PILIH PROVINSI</option>
-                        <span id="tampilProvinsi"></span>
+                        <?php
+
+                            $prov = $crud->eksekusiSQL("SELECT *FROM provinsi ORDER BY nama_provinsi ASC");
+
+                            while ($p=mysqli_fetch_array($prov)) 
+                            {
+                                $idprov = $p['id_provinsi'];
+                                $nmprov = $p['nama_provinsi'];
+                                echo
+                                "
+                                    <option value='$idprov'>$nmprov</option>
+                                ";
+                            }
+
+                        ?>
                     </select>
                 </div>
             </td>
@@ -82,7 +138,7 @@
                 </sup></td>
             <td>:</td>
             <td>
-                <input class="form-control" type="text" name="alamat">
+                <input class="form-control" type="text" name="alamat" required>
             </td>
         </tr>
 
@@ -92,7 +148,7 @@
                 </sup></td>
             <td>:</td>
             <td>
-                <input class="form-control" type="email" name="email">
+                <input class="form-control" type="email" name="email" required>
             </td>
         </tr>
 
@@ -102,7 +158,7 @@
                 </sup></td>
             <td>:</td>
             <td>
-                <input class="form-control" type="text" name="notelp">
+                <input class="form-control" type="text" name="notelp" required>
             </td>
         </tr>
 
@@ -211,7 +267,7 @@
                         <p style="margin-top: 15px;">
                             <font color="gray">Gambar tampil disini</font>
                         </p>
-                        <input type="file" name="foto" id="gambarAmbUsaha" onchange="return uploadUsaha(this)" required />
+                        <input type="file" name="foto" id="gambarAmbUsaha" onchange="return uploadUsaha(this)"/>
 
                         <br>
                     </div>
@@ -227,6 +283,6 @@
 
 
     </table>
-
+    <br><br>
     <button type="submit" class="btn btn-primary btn-lg">SIMPAN</button>
 </form>

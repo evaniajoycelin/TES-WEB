@@ -17,7 +17,7 @@
   </header>-->
 
   <section>
-    <div class="container" style="padding: 70px;">
+   
 
     
         <!--
@@ -124,105 +124,87 @@
         $id = $_GET['k'];
 
         $perintah = $crud->eksekusiSQl("SELECT 
-                                            kursus.nama_kursus, kursus.link_video, 
-                                            kursus.id_kelas, kelas.id_kelas, kelas.nama_kelas,
-                                            kursus.deskripsi, kursus.foto_kursus
-                                        FROM kursus
-                                        INNER JOIN kelas ON 
-                                            kelas.id_kelas=kursus.id_kelas
+                                            kursus.nama_kursus, kursus.deskripsi, 
+                                            kursus.foto_kursus, kursus.id_kelas,
+                                            kelas.id_kelas, kelas.nama_kelas
+                                            FROM 
+                                            kursus
+                                            INNER JOIN kelas
+                                            ON kelas.id_kelas = kursus.id_kelas
+                                           
                                         WHERE kursus.id_kursus='$id'
                                         ORDER BY id_kursus DESC
                                         ");
 
-        $hitung   = $crud->hitungData($perintah);
+      echo "<div class='container' style='padding: 70px;'>";
+     
+      foreach($perintah as $a)
+      {
+          $nama = $a['nama_kursus'];
+        // $link = $a['link_video'];
+          
+          //$idk  = $a['id_kursus'];
+          $namak= $a['nama_kelas'];
+          $idkel= $a['id_kelas'];
 
-        if ($hitung==0) 
-        {
-            pesanKosong();
-        }
-        else
-        {
-            foreach($perintah as $a)
-            {
-                $nama = $a['nama_kursus'];
-                $link = $a['link_video'];
+          $desk = $a['deskripsi'];
+
+
+        // $tamnel = youtubeGambar($link);
+
+          $foto = $a['foto_kursus'];
+
+
+        
+          $tamnel ="./foto/kursus/$foto";
+          
+        
+          
+          
+      //$pel = $isi->eksekusiSQl("SELECT *FROM kursus WHERE id_kelas='$idkel'");
+      //              $hit = $isi->hitungData($pel);
+
+          
+              //$tujuan = "foto/$foto";
+              $gambar = 
+              "  
+                      <img class='card-img-top' src='$tamnel' width='100%' height='300'>
                 
-                //$idk  = $a['id_kursus'];
-                $namak= $a['nama_kelas'];
-                $idkel= $a['id_kelas'];
+              ";
+        
 
-                $desk = $a['deskripsi'];
-
-
-                $tamnel = youtubeGambar($link);
-
-                $foto = $a['foto_kursus'];
+        
 
 
-                if ($link=='Kosong') 
-                {
-                    $tamnel ="./foto/kursus/$foto";
-                    $lokfile= $tamnel;
-                    $lihatVideo = "";
-                }
-                else
-                {
-                    $tamnel = youtubeGambar($link);
-                    $lokfile = $link;
-                    $lihatVideo = 
-                    "
-                    <p>
-                        <a href='$link' class='btn btn-primary' data-caption='$nama' data-fancybox>Lihat Video</a>
-                    </p>
-                    ";
-                }
-                
-                
-//$pel = $isi->eksekusiSQl("SELECT *FROM kursus WHERE id_kelas='$idkel'");
-  //              $hit = $isi->hitungData($pel);
-
-                
-                    //$tujuan = "foto/$foto";
-                    $gambar = 
-                    "  
-                            <img class='card-img-top' src='$tamnel' width='100%' height='300'>
-                       
-                    ";
-               
-
-               
-
-
-                
-                echo
-                  "
-                    <div class='row' style='margin-top:100px;'>
-                        <div class='col-md'>
-                            $gambar
-                        </div>
-                        <div class='col-md'>
-                            <h4>$namak</h4>
-                            <h3>$nama</h3>
-                            
-                        </div>
-                    </div>
-
-                    <span class='box-cokelat'>
-                      $desk
-
+          
+          echo
+            "
+              <div class='row' style='margin-top:100px;'>
+                  <div class='col-md'>
+                      $gambar
+                  </div>
+                  <div class='col-md'>
+                      <h4>$namak</h4>
+                      <h3>$nama</h3>
                       
-                      <br>
-                      $lihatVideo
-                    </span>
+                  </div>
+              </div>
 
-                    
-                  ";
-                //$no++;
-            }
-        }
+              <span class='box-cokelat'>
+                $desk
 
-      ?>
-    </div> 
+                
+                
+              </span>
+
+              
+            ";
+          //$no++;
+      }
+      echo "</div>";
+
+            ?>
+    
 
   </section>
 
@@ -234,3 +216,5 @@
     </div>
     <!-- /.container -->
   </footer>
+
+

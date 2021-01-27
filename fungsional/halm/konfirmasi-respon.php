@@ -15,7 +15,7 @@
     $tgl = date("Y-m-d");
 
 
-    $waktu = date("d-m-y h:i:s", time()+60*60*6);
+    $waktu = date("Y-m-d h:i:s", time()+60*60*7);
 
     if ($mau=='paket') 
     {
